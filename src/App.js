@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Col, Input, Layout, Row, Tooltip } from "antd";
+import { Col, Input, Layout, Row, Tooltip, Select } from "antd";
 
 const { Header, Content } = Layout;
 
@@ -25,6 +25,10 @@ const Result = (props) => {
 };
 
 const Calculator = (props: NumericInputProps) => {
+  const handleSelect = (value: string) => {
+    console.log(`selected ${value}`);
+  };
+
   const { value, onChange } = props;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,6 +61,25 @@ const Calculator = (props: NumericInputProps) => {
       <Row>
         <Col span={12}>
           <h3>
+            <Select
+              placeholder="Select your profile"
+              style={{ width: 200 }}
+              onChange={handleSelect}
+              options={[
+                {
+                  value: 1,
+                  label: "Aggresive",
+                },
+                {
+                  value: 2,
+                  label: "Moderate",
+                },
+                {
+                  value: 3,
+                  label: "Conservative",
+                },
+              ]}
+            />
             <Tooltip
               trigger={["focus"]}
               title={title}
