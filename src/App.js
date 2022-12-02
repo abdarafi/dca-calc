@@ -62,7 +62,7 @@ const Calculator = (props: NumericInputProps) => {
         <Col span={12}>
           <h3>
             <Select
-              placeholder="Select your profile"
+              placeholder="Select your risk profile"
               style={{ width: 200 }}
               onChange={handleSelect}
               options={[
