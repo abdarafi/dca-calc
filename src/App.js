@@ -3,12 +3,6 @@ import { Col, Input, Layout, Row, Tooltip, Select } from "antd";
 
 const { Header, Content } = Layout;
 
-interface NumericInputProps {
-  style: React.CSSProperties;
-  value: string;
-  onChange: (value: string) => void;
-}
-
 const formatNumber = (value: number) => new Intl.NumberFormat().format(value);
 
 const Result = (props) => {
@@ -17,25 +11,38 @@ const Result = (props) => {
       <Header>
         <h3>Your allocation:</h3>
       </Header>
-      <Content>{"Money Market: " + Math.ceil(props.inputValue * 0.1)}</Content>
-      <Content>{"Bonds: " + Math.ceil(props.inputValue * 0.48)}</Content>
-      <Content>{"Equity: " + Math.ceil(props.inputValue * 0.42)}</Content>
+      <Content>
+        {"Money Market: " + Math.ceil(props.inputValue * props.profile[0])}
+      </Content>
+      <Content>
+        {"Bonds: " + Math.ceil(props.inputValue * props.profile[1])}
+      </Content>
+      <Content>
+        {"Equity: " + Math.ceil(props.inputValue * props.profile[2])}
+      </Content>
     </div>
   );
 };
 
-const Calculator = (props: NumericInputProps) => {
-  const handleSelect = (value: string) => {
-    console.log(`selected ${value}`);
+const Calculator = () => {
+  const [value, setValue] = useState("");
+  const [risk, setRisk] = useState(0);
+
+  const risks = {
+    0: [0.47, 0.43, 0.10],
+    1: [0.1, 0.48, 0.42],
+    2: [0.1, 0.20, 0.70],
   };
 
-  const { value, onChange } = props;
+  const handleSelect = (profile: number) => {
+    setRisk(profile);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value: inputValue } = e.target;
     const reg = /^-?\d*(\.\d*)?$/;
     if (reg.test(inputValue) || inputValue === "" || inputValue === "-") {
-      onChange(inputValue);
+      setValue(inputValue);
     }
   };
 
@@ -45,7 +52,7 @@ const Calculator = (props: NumericInputProps) => {
     if (value.charAt(value.length - 1) === "." || value === "-") {
       valueTemp = value.slice(0, -1);
     }
-    onChange(valueTemp.replace(/0*(\d+)/, "$1"));
+    setValue(valueTemp.replace(/0*(\d+)/, "$1"));
   };
 
   const title = value ? (
@@ -67,16 +74,16 @@ const Calculator = (props: NumericInputProps) => {
               onChange={handleSelect}
               options={[
                 {
-                  value: 1,
-                  label: "Aggresive",
+                  value: 0,
+                  label: "Conservative",
                 },
                 {
-                  value: 2,
+                  value: 1,
                   label: "Moderate",
                 },
                 {
-                  value: 3,
-                  label: "Conservative",
+                  value: 2,
+                  label: "Aggresive",
                 },
               ]}
             />
@@ -87,7 +94,7 @@ const Calculator = (props: NumericInputProps) => {
               overlayClassName="numeric-input"
             >
               <Input
-                {...props}
+                style={{ width: 200 }}
                 onChange={handleChange}
                 onBlur={handleBlur}
                 placeholder="Your amount"
@@ -97,7 +104,7 @@ const Calculator = (props: NumericInputProps) => {
           </h3>
         </Col>
         <Col span={12}>
-          <Result inputValue={value} />
+          <Result inputValue={value} profile={risks[risk]} />
         </Col>
       </Row>
     </div>
@@ -105,11 +112,7 @@ const Calculator = (props: NumericInputProps) => {
 };
 
 const App: React.FC = () => {
-  const [value, setValue] = useState("");
-
-  return (
-    <Calculator style={{ width: 120 }} value={value} onChange={setValue} />
-  );
+  return <Calculator style={{ width: 120 }} />;
 };
 
 export default App;
