@@ -29,9 +29,9 @@ const Calculator = () => {
   const [risk, setRisk] = useState(0);
 
   const risks = {
-    0: [0.47, 0.43, 0.10],
+    0: [0.47, 0.43, 0.1],
     1: [0.1, 0.48, 0.42],
-    2: [0.1, 0.20, 0.70],
+    2: [0.1, 0.2, 0.7],
   };
 
   const handleSelect = (profile: number) => {
