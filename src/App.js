@@ -65,7 +65,7 @@ const Calculator = () => {
 
   return (
     <div>
-      <Row>
+      <Row style={{ width: 500, marginLeft: 50 }}>
         <Col span={12}>
           <h3>
             <Select
