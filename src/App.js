@@ -102,8 +102,6 @@ const Calculator = () => {
               />
             </Tooltip>
           </h3>
-        </Col>
-        <Col span={12}>
           <Result inputValue={value} profile={risks[risk]} />
         </Col>
       </Row>
